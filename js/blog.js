@@ -173,7 +173,7 @@ function renderList(posts) {
   }
 
   blogList.innerHTML = posts.map((p) => `
-    <article class="post-card" data-file="${escapeAttr(p.file)}">
+    <article class="post-card reveal" data-file="${escapeAttr(p.file)}">
       <h3>${escapeHtml(p.title)}</h3>
       <p>${escapeHtml(plainPreview(p.content, 100))}</p>
       <div class="post-meta">
@@ -181,6 +181,8 @@ function renderList(posts) {
         <span class="tags">${(p.tags || []).map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join("")}</span>
       </div>
     </article>`).join("");
+
+  if (window.refreshReveal) window.refreshReveal();
 
   $$(".post-card").forEach((card) => {
     card.addEventListener("click", () => openPost(posts, card.dataset.file));

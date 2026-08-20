@@ -9,6 +9,8 @@
 </head>
 <body>
 
+  <div id="progress" aria-hidden="true"></div>
+
   <!-- ===== Nav ===== -->
   <header class="nav">
     <div class="container nav-inner">
@@ -28,7 +30,7 @@
   <main>
 
     <!-- ===== Blog ===== -->
-    <section class="section" id="blog">
+    <section class="section reveal" id="blog">
       <div class="container">
         <h2 class="section-title" id="blogTitle">博客</h2>
         <p class="section-desc" id="blogDesc"></p>
@@ -61,11 +63,12 @@
 
   <footer class="footer">
     <div class="container">
-      <p>© <span id="year"></span> <span id="footerName"></span> · Built with ♥ and Markdown · <a href="index.html">主页</a> · <a href="admin.html">管理</a></p>
+      <p>© <span id="year"></span> <span id="footerName"></span> · Built with ♥ and Markdown · <a href="index.html">主页</a></p>
     </div>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="js/animate.js"></script>
   <script src="js/blog.js"></script>
 </body>
 </html>

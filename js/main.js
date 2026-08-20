@@ -1,12 +1,10 @@
 /* ============================================================
  * 个人主页 index.html
  * 功能：
- *   1) 从 data.json（或浏览器本地预览缓存）渲染主页内容
+ *   1) 从 data.json 渲染主页内容
  *   2) 主页姓名打字机效果
  * 博客已独立为 blog.html，文章来自 GitHub posts 文件夹
  * ========================================================== */
-
-const CONTENT_KEY = "mypage.content"; // 主页内容预览缓存（由 admin.html 写入）
 
 const $ = (sel) => document.querySelector(sel);
 
@@ -53,19 +51,13 @@ function mergeData(base, data) {
   return out;
 }
 
-/* 读取内容：优先本地预览缓存，否则从 data.json 获取 */
+/* 读取内容：从 data.json 获取 */
 async function loadContent() {
   let data = null;
-  const local = localStorage.getItem(CONTENT_KEY);
-  if (local) {
-    try { data = JSON.parse(local); } catch { data = null; }
-  }
-  if (!data) {
-    try {
-      const res = await fetch("data.json", { cache: "no-cache" });
-      if (res.ok) data = await res.json();
-    } catch { /* 忽略，走默认 */ }
-  }
+  try {
+    const res = await fetch("data.json", { cache: "no-cache" });
+    if (res.ok) data = await res.json();
+  } catch { /* 忽略，走默认 */ }
   renderContent(mergeData(DEFAULT_DATA, data || {}));
 }
 
@@ -81,16 +73,16 @@ function renderContent(d) {
 
   $("#aboutTitle").textContent = d.about.title;
   $("#aboutDesc").textContent = d.about.description;
-  $("#aboutGrid").innerHTML = (d.about.cards || []).map((c) => `
-    <div class="about-card">
+  $("#aboutGrid").innerHTML = (d.about.cards || []).map((c, i) => `
+    <div class="about-card reveal" style="transition-delay:${i * 90}ms">
       <h3>${escapeHtml(c.title)}</h3>
       <ul>${(c.items || []).map((i) => `<li>${escapeHtml(i)}</li>`).join("")}</ul>
     </div>`).join("");
 
   $("#projectsTitle").textContent = d.projects.title;
   $("#projectsDesc").textContent = d.projects.description;
-  $("#projectsGrid").innerHTML = (d.projects.items || []).map((p) => `
-    <a class="project-card" href="${escapeAttr(p.url)}" target="_blank" rel="noopener">
+  $("#projectsGrid").innerHTML = (d.projects.items || []).map((p, i) => `
+    <a class="project-card reveal" style="transition-delay:${i * 90}ms" href="${escapeAttr(p.url)}" target="_blank" rel="noopener">
       <h3>${escapeHtml(p.title)}</h3>
       <p>${escapeHtml(p.description)}</p>
       <span class="tag">${escapeHtml(p.tag)}</span>
@@ -105,6 +97,8 @@ function renderContent(d) {
   $("#contactLinks").innerHTML = `<a href="mailto:${escapeAttr(email)}">${escapeHtml(email)}</a>${links}`;
 
   $("#footerName").textContent = d.hero.name;
+
+  if (window.refreshReveal) window.refreshReveal();
 }
 
 /* ---------- 姓名打字机效果 ---------- */
@@ -130,4 +124,5 @@ $("#navToggle").addEventListener("click", () => {
 
 /* ---------- 初始化 ---------- */
 $("#year").textContent = new Date().getFullYear();
+localStorage.removeItem("mypage.content"); // 清理旧版管理后台留下的预览缓存
 loadContent();
