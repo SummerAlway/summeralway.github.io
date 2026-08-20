@@ -1,9 +1,12 @@
 /* ============================================================
  * 个人主页 · 静态博客
- * 功能：上传 Markdown 文件 → 解析 front-matter → 本地渲染
+ * 功能：
+ *   1) 从 data.json（或浏览器本地预览缓存）渲染主页内容
+ *   2) 上传 Markdown 文件 → 解析 front-matter → 本地渲染博客
  * ========================================================== */
 
-const STORAGE_KEY = "myblog.posts";
+const STORAGE_KEY = "myblog.posts";   // 博客文章
+const CONTENT_KEY = "mypage.content"; // 主页内容预览缓存
 
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => document.querySelectorAll(sel);
@@ -13,7 +16,129 @@ const postView = $("#postView");
 const mdInput = $("#mdInput");
 const clearBtn = $("#clearPosts");
 
-/* ---------- 读取 / 保存本地文章 ---------- */
+/* ============================================================
+ * 一、主页内容渲染
+ * ========================================================== */
+
+const DEFAULT_DATA = {
+  site: { title: "Your Name · Personal Homepage", logoText: "Your", logoAccent: "Name" },
+  hero: {
+    greeting: "你好，我是",
+    name: "Your Name",
+    subtitle: "前端工程师 · 独立开发者 · 终身学习者",
+    description: "在这里记录我的思考、项目与生活。相信简单是一种美，坚持用代码创造价值。"
+  },
+  about: { title: "关于我", description: "", cards: [] },
+  projects: { title: "项目", description: "", items: [] },
+  blog: { title: "博客", description: "上传 Markdown 文件，即可发布一篇新的博客文章。" },
+  contact: {
+    title: "联系我",
+    description: "欢迎交流与合作，期待你的来信。",
+    email: "your@email.com",
+    links: []
+  }
+};
+
+function escapeHtml(str) {
+  const div = document.createElement("div");
+  div.textContent = str == null ? "" : String(str);
+  return div.innerHTML;
+}
+
+function escapeAttr(str) {
+  return String(str == null ? "" : str).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
+}
+
+/* 深度合并，保证缺省字段有默认值 */
+function mergeData(base, data) {
+  const out = { ...base };
+  Object.keys(base).forEach((k) => {
+    if (typeof base[k] === "object" && base[k] !== null && !Array.isArray(base[k])) {
+      out[k] = mergeData(base[k], (data && data[k]) || {});
+    } else if (data && data[k] !== undefined) {
+      out[k] = data[k];
+    }
+  });
+  return out;
+}
+
+/* 读取内容：优先本地预览缓存，否则从 data.json 获取 */
+async function loadContent() {
+  let data = null;
+  const local = localStorage.getItem(CONTENT_KEY);
+  if (local) {
+    try { data = JSON.parse(local); } catch { data = null; }
+  }
+  if (!data) {
+    try {
+      const res = await fetch("data.json", { cache: "no-cache" });
+      if (res.ok) data = await res.json();
+    } catch { /* 忽略，走默认 */ }
+  }
+  renderContent(mergeData(DEFAULT_DATA, data || {}));
+}
+
+function renderContent(d) {
+  document.title = d.site.title;
+
+  $("#logoText").innerHTML = escapeHtml(d.site.logoText) + "<span id=\"logoAccent\">" + escapeHtml(d.site.logoAccent) + "</span>";
+
+  $("#heroGreeting").textContent = d.hero.greeting;
+  typeName(d.hero.name);
+  $("#heroSubtitle").textContent = d.hero.subtitle;
+  $("#heroDesc").textContent = d.hero.description;
+
+  $("#aboutTitle").textContent = d.about.title;
+  $("#aboutDesc").textContent = d.about.description;
+  $("#aboutGrid").innerHTML = (d.about.cards || []).map((c) => `
+    <div class="about-card">
+      <h3>${escapeHtml(c.title)}</h3>
+      <ul>${(c.items || []).map((i) => `<li>${escapeHtml(i)}</li>`).join("")}</ul>
+    </div>`).join("");
+
+  $("#projectsTitle").textContent = d.projects.title;
+  $("#projectsDesc").textContent = d.projects.description;
+  $("#projectsGrid").innerHTML = (d.projects.items || []).map((p) => `
+    <a class="project-card" href="${escapeAttr(p.url)}" target="_blank" rel="noopener">
+      <h3>${escapeHtml(p.title)}</h3>
+      <p>${escapeHtml(p.description)}</p>
+      <span class="tag">${escapeHtml(p.tag)}</span>
+    </a>`).join("");
+
+  $("#blogTitle").textContent = d.blog.title;
+  $("#blogDesc").textContent = d.blog.description;
+
+  $("#contactTitle").textContent = d.contact.title;
+  $("#contactDesc").textContent = d.contact.description;
+  const email = d.contact.email;
+  const links = (d.contact.links || [])
+    .map((l) => `<a href="${escapeAttr(l.url)}" target="_blank" rel="noopener">${escapeHtml(l.label)}</a>`)
+    .join("");
+  $("#contactLinks").innerHTML = `<a href="mailto:${escapeAttr(email)}">${escapeHtml(email)}</a>${links}`;
+
+  $("#footerName").textContent = d.hero.name;
+}
+
+/* ---------- 姓名打字机效果 ---------- */
+let typeTimer = null;
+
+function typeName(name) {
+  const el = $("#heroName");
+  if (!el) return;
+  clearInterval(typeTimer);
+  const text = String(name || "");
+  el.textContent = "";
+  let i = 0;
+  typeTimer = setInterval(() => {
+    el.textContent = text.slice(0, ++i);
+    if (i >= text.length) clearInterval(typeTimer);
+  }, 90);
+}
+
+/* ============================================================
+ * 二、博客：读取 / 保存本地文章
+ * ========================================================== */
+
 function loadPosts() {
   try {
     return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
@@ -94,7 +219,7 @@ function renderList() {
       <h3>${escapeHtml(p.title)}</h3>
       <p>${escapeHtml(plainPreview(p.content, 100))}</p>
       <div class="post-meta">
-        <time datetime="${p.date}">${formatDate(p.date)}</time>
+        <time datetime="${escapeAttr(p.date)}">${escapeHtml(formatDate(p.date))}</time>
         <span class="tags">${(p.tags || []).map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join("")}</span>
       </div>
     </article>`).join("");
@@ -128,12 +253,6 @@ function formatDate(str) {
   if (isNaN(d)) return str;
   const pad = (n) => String(n).padStart(2, "0");
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
-}
-
-function escapeHtml(str) {
-  const div = document.createElement("div");
-  div.textContent = str;
-  return div.innerHTML;
 }
 
 function plainPreview(md, len) {
@@ -176,4 +295,5 @@ $("#navToggle").addEventListener("click", () => {
 
 /* ---------- 初始化 ---------- */
 $("#year").textContent = new Date().getFullYear();
+loadContent();
 renderList();

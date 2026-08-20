@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>站点内容管理 · Admin</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+  <div class="admin">
+    <header class="admin-header">
+      <div class="admin-inner">
+        <h1>⚙️ 站点内容管理</h1>
+        <div class="admin-actions">
+          <button class="btn btn-outline" id="btnReload">重新载入</button>
+          <button class="btn btn-outline" id="btnPreview">保存并预览</button>
+          <button class="btn btn-primary" id="btnDownload">下载 data.json</button>
+          <button class="btn btn-clear" id="btnReset">恢复默认</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="admin-body">
+
+      <aside class="admin-side">
+        <nav class="admin-menu">
+          <a href="#s-basic" class="active">站点信息</a>
+          <a href="#s-hero">主页 Hero</a>
+          <a href="#s-about">关于我</a>
+          <a href="#s-projects">项目</a>
+          <a href="#s-blog">博客说明</a>
+          <a href="#s-contact">联系我</a>
+        </nav>
+        <div class="admin-tip">
+          <h4>使用方法</h4>
+          <ol>
+            <li>填写右侧表单</li>
+            <li>点「保存并预览」在本浏览器查看效果</li>
+            <li>点「下载 data.json」得到配置文件</li>
+            <li>用它替换站点根目录的 <code>data.json</code> 并推送 GitHub 即全网生效</li>
+            <li>在主页看到旧内容时，点「恢复默认」即可</li>
+          </ol>
+        </div>
+      </aside>
+
+      <section class="admin-main" id="adminForm">
+
+        <div class="panel" id="s-basic">
+          <h2>站点信息</h2>
+          <label>页面标题（浏览器标签页）
+            <input data-path="site.title" type="text">
+          </label>
+          <div class="row-2">
+            <label>Logo 前半段
+              <input data-path="site.logoText" type="text">
+            </label>
+            <label>Logo 强调段
+              <input data-path="site.logoAccent" type="text">
+            </label>
+          </div>
+        </div>
+
+        <div class="panel" id="s-hero">
+          <h2>主页 Hero（首屏）</h2>
+          <label>问候语
+            <input data-path="hero.greeting" type="text">
+          </label>
+          <label>姓名 / 标题
+            <input data-path="hero.name" type="text">
+          </label>
+          <label>副标题（一行介绍）
+            <input data-path="hero.subtitle" type="text">
+          </label>
+          <label>简介
+            <textarea data-path="hero.description" rows="3"></textarea>
+          </label>
+        </div>
+
+        <div class="panel" id="s-about">
+          <h2>关于我
+            <button type="button" class="add-btn" id="addCard">＋ 添加卡片</button>
+          </h2>
+          <label>区块标题
+            <input data-path="about.title" type="text">
+          </label>
+          <label>区块副标题（可留空）
+            <input data-path="about.description" type="text">
+          </label>
+          <div id="aboutCards"></div>
+        </div>
+
+        <div class="panel" id="s-projects">
+          <h2>项目
+            <button type="button" class="add-btn" id="addProject">＋ 添加项目</button>
+          </h2>
+          <label>区块标题
+            <input data-path="projects.title" type="text">
+          </label>
+          <label>区块副标题（可留空）
+            <input data-path="projects.description" type="text">
+          </label>
+          <div id="projectList"></div>
+        </div>
+
+        <div class="panel" id="s-blog">
+          <h2>博客说明</h2>
+          <label>区块标题
+            <input data-path="blog.title" type="text">
+          </label>
+          <label>区块副标题
+            <input data-path="blog.description" type="text">
+          </label>
+        </div>
+
+        <div class="panel" id="s-contact">
+          <h2>联系我
+            <button type="button" class="add-btn" id="addLink">＋ 添加链接</button>
+          </h2>
+          <label>区块标题
+            <input data-path="contact.title" type="text">
+          </label>
+          <label>区块副标题
+            <input data-path="contact.description" type="text">
+          </label>
+          <label>邮箱
+            <input data-path="contact.email" type="email">
+          </label>
+          <div id="contactLinks"></div>
+        </div>
+
+        <div class="admin-foot">
+          <button class="btn btn-primary" id="btnDownload2">下载 data.json 并发布</button>
+        </div>
+
+      </section>
+    </main>
+  </div>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>

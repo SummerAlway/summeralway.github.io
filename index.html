@@ -12,7 +12,7 @@
   <!-- ===== Nav ===== -->
   <header class="nav">
     <div class="container nav-inner">
-      <a href="#top" class="nav-logo">Your<span>Name</span></a>
+      <a href="#top" class="nav-logo" id="logoText">Your<span id="logoAccent">Name</span></a>
       <nav class="nav-links" id="navLinks">
         <a href="#about">关于</a>
         <a href="#projects">项目</a>
@@ -30,10 +30,12 @@
     <!-- ===== Hero ===== -->
     <section class="hero">
       <div class="container">
-        <p class="hero-greeting">你好，我是</p>
-        <h1 class="hero-title">Your Name</h1>
-        <p class="hero-subtitle">前端工程师 · 独立开发者 · 终身学习者</p>
-        <p class="hero-desc">
+        <p class="hero-greeting" id="heroGreeting">你好，我是</p>
+        <h1 class="hero-title">
+          <span id="heroName"></span><span class="type-cursor" aria-hidden="true">|</span>
+        </h1>
+        <p class="hero-subtitle" id="heroSubtitle">前端工程师 · 独立开发者 · 终身学习者</p>
+        <p class="hero-desc" id="heroDesc">
           在这里记录我的思考、项目与生活。相信简单是一种美，坚持用代码创造价值。
         </p>
         <div class="hero-actions">
@@ -46,65 +48,26 @@
     <!-- ===== About ===== -->
     <section class="section" id="about">
       <div class="container">
-        <h2 class="section-title">关于我</h2>
-        <div class="about-grid">
-          <div class="about-card">
-            <h3>🛠 技能</h3>
-            <ul>
-              <li>HTML / CSS / JavaScript</li>
-              <li>Vue / React</li>
-              <li>Node.js / Python</li>
-            </ul>
-          </div>
-          <div class="about-card">
-            <h3>✨ 兴趣</h3>
-            <ul>
-              <li>开源与分享</li>
-              <li>摄影与旅行</li>
-              <li>阅读与写作</li>
-            </ul>
-          </div>
-          <div class="about-card">
-            <h3>📌 经历</h3>
-            <ul>
-              <li>某科技公司 · 前端工程师</li>
-              <li>某某大学 · 计算机科学</li>
-              <li>开源社区贡献者</li>
-            </ul>
-          </div>
-        </div>
+        <h2 class="section-title" id="aboutTitle">关于我</h2>
+        <p class="section-desc" id="aboutDesc"></p>
+        <div class="about-grid" id="aboutGrid"></div>
       </div>
     </section>
 
     <!-- ===== Projects ===== -->
     <section class="section section-alt" id="projects">
       <div class="container">
-        <h2 class="section-title">项目</h2>
-        <div class="projects-grid">
-          <a class="project-card" href="#" target="_blank" rel="noopener">
-            <h3>项目名称</h3>
-            <p>一句话介绍这个项目做了什么，解决了什么问题。</p>
-            <span class="tag">TypeScript</span>
-          </a>
-          <a class="project-card" href="#" target="_blank" rel="noopener">
-            <h3>项目名称</h3>
-            <p>一句话介绍这个项目做了什么，解决了什么问题。</p>
-            <span class="tag">Vue</span>
-          </a>
-          <a class="project-card" href="#" target="_blank" rel="noopener">
-            <h3>项目名称</h3>
-            <p>一句话介绍这个项目做了什么，解决了什么问题。</p>
-            <span class="tag">Python</span>
-          </a>
-        </div>
+        <h2 class="section-title" id="projectsTitle">项目</h2>
+        <p class="section-desc" id="projectsDesc"></p>
+        <div class="projects-grid" id="projectsGrid"></div>
       </div>
     </section>
 
     <!-- ===== Blog ===== -->
     <section class="section" id="blog">
       <div class="container">
-        <h2 class="section-title">博客</h2>
-        <p class="section-desc">上传 Markdown 文件，即可发布一篇新的博客文章。</p>
+        <h2 class="section-title" id="blogTitle">博客</h2>
+        <p class="section-desc" id="blogDesc">上传 Markdown 文件，即可发布一篇新的博客文章。</p>
 
         <div class="upload-bar">
           <label class="upload-btn" for="mdInput">
@@ -139,14 +102,9 @@
     <!-- ===== Contact ===== -->
     <section class="section section-alt" id="contact">
       <div class="container">
-        <h2 class="section-title">联系我</h2>
-        <p class="section-desc">欢迎交流与合作，期待你的来信。</p>
-        <div class="contact-links">
-          <a href="mailto:your@email.com">your@email.com</a>
-          <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
-          <a href="https://twitter.com/" target="_blank" rel="noopener">Twitter</a>
-          <a href="https://blog.example.com" target="_blank" rel="noopener">RSS</a>
-        </div>
+        <h2 class="section-title" id="contactTitle">联系我</h2>
+        <p class="section-desc" id="contactDesc">欢迎交流与合作，期待你的来信。</p>
+        <div class="contact-links" id="contactLinks"></div>
       </div>
     </section>
 
@@ -154,7 +112,7 @@
 
   <footer class="footer">
     <div class="container">
-      <p>© <span id="year"></span> Your Name · Built with ♥ and Markdown</p>
+      <p>© <span id="year"></span> <span id="footerName">Your Name</span> · Built with ♥ and Markdown · <a href="admin.html" class="footer-admin">管理</a></p>
     </div>
   </footer>
 

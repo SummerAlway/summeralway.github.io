@@ -1,0 +1,88 @@
+{
+  "site": {
+    "title": "SummerAlway · Personal Homepage",
+    "logoText": "Summer",
+    "logoAccent": "Alway"
+  },
+  "hero": {
+    "greeting": "你好，我是",
+    "name": "SummerAlway",
+    "subtitle": "高中学生 · 开发者 · 终身学习者",
+    "description": "一名热爱编程的高中学生，喜欢用代码解决生活中的小问题，也喜欢在博客里记录学习与成长的点点滴滴。"
+  },
+  "about": {
+    "title": "关于我",
+    "description": "",
+    "cards": [
+      {
+        "title": "🛠 技能",
+        "items": [
+          "Python",
+          "HTML / CSS / JavaScript",
+          "Git & GitHub"
+        ]
+      },
+      {
+        "title": "🎓 身份",
+        "items": [
+          "高中学生",
+          "编程爱好者",
+          "开源学习者"
+        ]
+      },
+      {
+        "title": "✨ 兴趣",
+        "items": [
+          "开源与分享",
+          "桌面小工具",
+          "个人博客"
+        ]
+      }
+    ]
+  },
+  "projects": {
+    "title": "项目",
+    "description": "以下项目来自我的 GitHub 仓库",
+    "items": [
+      {
+        "title": "Clipboard-Assistant",
+        "description": "一个基于 Python 的便捷剪贴板查看工具，方便你随时查看剪贴板内容。",
+        "tag": "Python",
+        "url": "https://github.com/SummerAlway/Clipboard-Assistant"
+      },
+      {
+        "title": "MCAMX",
+        "description": "MCAMX 社团的介绍页面。",
+        "tag": "HTML",
+        "url": "https://github.com/SummerAlway/MCAMX"
+      },
+      {
+        "title": "My-blog",
+        "description": "我的博客项目仓库。",
+        "tag": "HTML",
+        "url": "https://github.com/SummerAlway/My-blog"
+      },
+      {
+        "title": "summeralway.github.io",
+        "description": "我的个人主页源码，也就是你现在看到的这个网站。",
+        "tag": "CSS",
+        "url": "https://github.com/SummerAlway/summeralway.github.io"
+      }
+    ]
+  },
+  "blog": {
+    "title": "博客",
+    "description": "上传 Markdown 文件，即可发布一篇新的博客文章。"
+  },
+  "contact": {
+    "title": "联系我",
+    "description": "欢迎交流与合作，期待你的来信。",
+    "email": "summeralway@163.com",
+    "links": [
+      {
+        "label": "GitHub",
+        "url": "https://github.com/SummerAlway"
+      }
+    ]
+  }
+}

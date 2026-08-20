@@ -107,6 +107,21 @@ a:hover { color: var(--accent-dark); }
   margin-bottom: 12px;
 }
 
+.hero-title .type-cursor {
+  display: inline-block;
+  width: 0.09em;
+  color: var(--accent);
+  font-weight: 400;
+  margin-left: 6px;
+  animation: caret-blink 1s step-end infinite;
+  -webkit-text-fill-color: var(--accent);
+}
+
+@keyframes caret-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
 .hero-subtitle { font-size: 18px; color: var(--text-light); margin-bottom: 20px; }
 
 .hero-desc {
