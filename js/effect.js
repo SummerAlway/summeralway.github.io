@@ -5,6 +5,9 @@
 
 (function () {
   if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  // 移动端 / 触屏设备不需要鼠标拖尾
+  if (window.matchMedia && window.matchMedia("(pointer: coarse)").matches) return;
+  if (navigator.maxTouchPoints > 0 && !(window.matchMedia && window.matchMedia("(pointer: fine)").matches)) return;
 
   const canvas = document.createElement("canvas");
   canvas.id = "rainbow-trail";
@@ -39,16 +42,7 @@
     mouse.active = true;
   });
 
-  window.addEventListener("touchmove", (e) => {
-    if (e.touches.length) {
-      mouse.x = e.touches[0].clientX;
-      mouse.y = e.touches[0].clientY;
-      mouse.active = true;
-    }
-  }, { passive: true });
-
   window.addEventListener("mouseleave", () => { mouse.active = false; });
-  window.addEventListener("touchend", () => { mouse.active = false; });
 
   function frame() {
     requestAnimationFrame(frame);

@@ -534,6 +534,8 @@ a:hover { color: var(--accent-dark); }
 @media (max-width: 720px) {
   .about-grid, .projects-grid { grid-template-columns: 1fr; }
 
+  .container { padding: 0 20px; }
+
   .nav-links {
     display: none;
     position: absolute;
@@ -543,16 +545,54 @@ a:hover { color: var(--accent-dark); }
     flex-direction: column;
     background: var(--bg);
     border-bottom: 1px solid var(--border);
-    padding: 12px 24px 20px;
-    gap: 14px;
+    padding: 10px 20px 18px;
+    gap: 4px;
   }
   .nav-links.open { display: flex; }
+  .nav-links a {
+    padding: 12px 4px;
+    font-size: 16px;
+  }
+  .nav-links a::after { bottom: 8px; }
 
-  .nav-toggle { display: block; }
+  .nav-toggle {
+    display: block;
+    padding: 8px;
+    margin: -8px;
+  }
 
-  .hero { padding: 80px 0 60px; }
-  .section { padding: 56px 0; }
-  .post { padding: 24px; }
-  .post-title { font-size: 24px; }
-  .upload-bar { flex-direction: column; gap: 12px; }
+  .hero { padding: 72px 0 56px; }
+  .hero-subtitle { font-size: 16px; }
+  .hero-actions { flex-wrap: wrap; gap: 12px; }
+
+  .section { padding: 52px 0; }
+  .section-title { font-size: 26px; }
+
+  .about-card, .project-card { padding: 20px; }
+  .post { padding: 22px; }
+  .post-title { font-size: 23px; }
+
+  .blog-toolbar { flex-direction: column; align-items: flex-start; }
+  .blog-source { line-height: 1.6; }
+  .contact-links { gap: 20px; }
+}
+
+/* 小屏手机 */
+@media (max-width: 480px) {
+  .container { padding: 0 16px; }
+
+  .hero { padding: 56px 0 44px; }
+  .hero-title { letter-spacing: 1px; }
+  .hero-desc { font-size: 14px; }
+
+  .section { padding: 44px 0; }
+  .section-title { font-size: 23px; }
+
+  .btn { padding: 10px 22px; font-size: 14px; }
+  .post { padding: 18px; }
+  .post-content { font-size: 15px; }
+  .post-content pre { padding: 12px; }
+
+  .about-card, .project-card { padding: 18px; }
+  .upload-bar, .blog-toolbar { gap: 10px; }
 }
