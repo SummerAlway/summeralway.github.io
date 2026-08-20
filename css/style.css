@@ -435,6 +435,17 @@ a:hover { color: var(--accent-dark); }
   color: var(--text-light);
 }
 
+/* ===== 彩虹鼠标拖尾 ===== */
+#rainbow-trail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  pointer-events: none;
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 720px) {
   .about-grid, .projects-grid { grid-template-columns: 1fr; }
