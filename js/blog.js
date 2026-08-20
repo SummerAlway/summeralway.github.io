@@ -106,7 +106,12 @@ async function loadPosts(force) {
     const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${POSTS_DIR}`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const items = await res.json();
-    files = items.filter((i) => i.type === "file" && /\.(md|markdown)$/i.test(i.name));
+    files = items.filter((i) =>
+      i.type === "file" &&
+      /\.(md|markdown)$/i.test(i.name) &&
+      !/^readme\.md$/i.test(i.name) &&   // 排除说明文件
+      !i.name.startsWith("_")            // 排除 _ 开头的草稿
+    );
   } catch (err) {
     if (cache) return cache.posts; // 请求失败时退回缓存
     throw new Error("无法读取 GitHub posts 文件夹：" + err.message);
