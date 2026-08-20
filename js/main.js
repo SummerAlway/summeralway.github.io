@@ -3,7 +3,6 @@
  * 功能：
  *   1) 从 data.json（或浏览器本地预览缓存）渲染主页内容
  *   2) 主页姓名打字机效果
- *   3) 彩虹流体鼠标特效（cursor-effects）
  * 博客已独立为 blog.html，文章来自 GitHub posts 文件夹
  * ========================================================== */
 
@@ -124,17 +123,6 @@ function typeName(name) {
   }, 90);
 }
 
-/* ---------- 彩虹流体鼠标特效 ---------- */
-function initRainbowCursor() {
-  if (!window.cursoreffects) return;
-  const prefersReducedMotion = window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (prefersReducedMotion) return;
-  window.addEventListener("load", () => {
-    new window.cursoreffects.rainbowCursor({ size: 5, length: 5 });
-  });
-}
-
 /* ---------- 移动端导航 ---------- */
 $("#navToggle").addEventListener("click", () => {
   $("#navLinks").classList.toggle("open");
@@ -143,4 +131,3 @@ $("#navToggle").addEventListener("click", () => {
 /* ---------- 初始化 ---------- */
 $("#year").textContent = new Date().getFullYear();
 loadContent();
-initRainbowCursor();
