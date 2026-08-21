@@ -104,7 +104,7 @@ function openPost(posts, file) {
 async function init(force) {
   blogList.hidden = false;
   postView.hidden = true;
-  blogList.innerHTML = `<div class="empty"><span class="icon">⏳</span>正在从 GitHub 加载文章…</div>`;
+  blogList.innerHTML = `<div class="empty"><span class="icon">⏳</span>正在加载文章…</div>`;
 
   try {
     const posts = await Posts.loadPosts(force);
@@ -129,10 +129,7 @@ async function init(force) {
     blogList.innerHTML = `
       <div class="empty">
         <span class="icon">⚠️</span>
-        加载失败：${Posts.escapeHtml(err.message)}<br>
-        可以直接前往
-        <a href="https://github.com/SummerAlway/summeralway.github.io/tree/main/posts" target="_blank" rel="noopener">GitHub posts 文件夹</a>
-        查看原文。
+        加载失败：${Posts.escapeHtml(err.message)}
       </div>`;
   }
 }

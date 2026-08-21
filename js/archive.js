@@ -36,7 +36,7 @@ function renderTimeline(posts) {
     wrap.innerHTML = `
       <div class="empty">
         <span class="icon">📝</span>
-        还没有文章，把 Markdown 推到 GitHub 的 <code>posts/</code> 文件夹即可发布。
+        还没有文章，先去发布第一篇吧。
       </div>`;
     return;
   }
@@ -81,10 +81,7 @@ async function init() {
     $("#timeline").innerHTML = `
       <div class="empty">
         <span class="icon">⚠️</span>
-        加载失败：${Posts.escapeHtml(err.message)}<br>
-        可以直接前往
-        <a href="https://github.com/SummerAlway/summeralway.github.io/tree/main/posts" target="_blank" rel="noopener">GitHub posts 文件夹</a>
-        查看原文。
+        加载失败：${Posts.escapeHtml(err.message)}
       </div>`;
   }
 }
