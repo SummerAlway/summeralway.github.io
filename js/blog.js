@@ -59,8 +59,7 @@ function renderList(posts) {
     blogList.innerHTML = `
       <div class="empty">
         <span class="icon">📝</span>
-        posts 文件夹还没有文章。<br>
-        把 Markdown 文件推到仓库的 <code>posts/</code> 文件夹即可发布。
+        还没有文章，先去发布第一篇吧。
       </div>`;
     return;
   }

@@ -337,26 +337,11 @@ a:hover { color: var(--accent-dark); }
 .blog-toolbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 16px;
   flex-wrap: wrap;
   margin-bottom: 36px;
-  padding: 14px 18px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
 }
-.blog-source {
-  font-size: 13px;
-  color: var(--text-light);
-}
-.blog-source code {
-  background: var(--code-bg);
-  padding: 1px 6px;
-  border-radius: 4px;
-  font-size: 12px;
-}
-.blog-toolbar .btn { padding: 8px 20px; font-size: 14px; }
 
 .upload-bar {
   display: flex;
