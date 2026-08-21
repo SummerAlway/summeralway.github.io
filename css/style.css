@@ -15,10 +15,11 @@
   --tag-bg: #eff6ff;
   --tag-border: #bfdbfe;
   --post-hover-border: #c7d7f8;
-  --section-alt-bg: rgba(255, 255, 255, .55);
   --glow-a: rgba(37, 99, 235, .10);
   --glow-b: rgba(139, 92, 246, .09);
   --glow-c: rgba(37, 99, 235, .06);
+  --blob-a: rgba(37, 99, 235, .16);
+  --blob-b: rgba(139, 92, 246, .14);
   --font: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI",
     "Helvetica Neue", Arial, sans-serif;
 }
@@ -39,13 +40,51 @@
   --tag-bg: rgba(96, 165, 250, .16);
   --tag-border: rgba(96, 165, 250, .4);
   --post-hover-border: #3b82f6;
-  --section-alt-bg: rgba(17, 28, 52, .5);
   --glow-a: rgba(96, 165, 250, .10);
   --glow-b: rgba(167, 139, 250, .09);
   --glow-c: rgba(96, 165, 250, .07);
+  --blob-a: rgba(96, 165, 250, .16);
+  --blob-b: rgba(167, 139, 250, .14);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* 注册可过渡的颜色变量（用于 body / hero 渐变层的平滑过渡） */
+@property --bg {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #fafafa;
+}
+@property --hero-top {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #ffffff;
+}
+@property --glow-a {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: rgba(37, 99, 235, .10);
+}
+@property --glow-b {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: rgba(139, 92, 246, .09);
+}
+@property --glow-c {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: rgba(37, 99, 235, .06);
+}
+@property --blob-a {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: rgba(37, 99, 235, .16);
+}
+@property --blob-b {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: rgba(139, 92, 246, .14);
+}
 
 html { scroll-behavior: smooth; }
 
@@ -124,6 +163,7 @@ a:hover { color: var(--accent-dark); }
 
 /* 日夜主题切换按钮 */
 .theme-toggle {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -141,10 +181,30 @@ a:hover { color: var(--accent-dark); }
   color: var(--accent);
   transform: rotate(20deg);
 }
-.theme-toggle svg { width: 17px; height: 17px; }
-.icon-sun { display: none; }
-[data-theme="dark"] .icon-sun { display: block; }
-[data-theme="dark"] .icon-moon { display: none; }
+.theme-toggle svg {
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  transition: opacity .3s ease, transform .3s ease;
+}
+.theme-toggle .icon-moon { opacity: 1; transform: rotate(0deg); }
+.theme-toggle .icon-sun { opacity: 0; transform: rotate(90deg); }
+[data-theme="dark"] .theme-toggle .icon-moon { opacity: 0; transform: rotate(-90deg); }
+[data-theme="dark"] .theme-toggle .icon-sun { opacity: 1; transform: rotate(0deg); }
+
+/* 切换按钮动效 */
+.theme-toggle.is-switching {
+  animation: themeSpin .6s ease;
+}
+@keyframes themeSpin {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.18); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle.is-switching { animation: none; }
+  .theme-toggle svg { transition: none; }
+}
 
 .nav-toggle { display: none; background: none; border: 0; cursor: pointer; }
 .nav-toggle span {
@@ -160,7 +220,8 @@ a:hover { color: var(--accent-dark); }
 .hero {
   padding: 110px 0 90px;
   text-align: center;
-  background: linear-gradient(180deg, var(--hero-top) 0%, var(--bg) 100%);
+  /* 顶部保留主题色渐变，下方渐隐露出全局辉光，避免板块割裂 */
+  background: linear-gradient(180deg, var(--hero-top) 0%, transparent 55%);
 }
 
 .hero-greeting { color: var(--text-light); font-size: 16px; margin-bottom: 8px; }
@@ -203,7 +264,7 @@ a:hover { color: var(--accent-dark); }
 
 /* ===== Sections ===== */
 .section { padding: 80px 0; }
-.section-alt { background: var(--section-alt-bg); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.section-alt { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
 
 .section-title {
   font-size: 30px;
@@ -556,7 +617,7 @@ a:hover { color: var(--accent-dark); }
   height: 460px;
   top: -140px;
   left: -120px;
-  background: radial-gradient(circle, rgba(37, 99, 235, .20), transparent 70%);
+  background: radial-gradient(circle, var(--blob-a), transparent 70%);
   animation: blobFloat 14s ease-in-out infinite;
 }
 .hero::after {
@@ -564,7 +625,7 @@ a:hover { color: var(--accent-dark); }
   height: 380px;
   bottom: -120px;
   right: -100px;
-  background: radial-gradient(circle, rgba(139, 92, 246, .18), transparent 70%);
+  background: radial-gradient(circle, var(--blob-b), transparent 70%);
   animation: blobFloat 18s ease-in-out infinite reverse;
 }
 @keyframes blobFloat {
@@ -582,13 +643,17 @@ a:hover { color: var(--accent-dark); }
   .reveal { opacity: 1; transform: none; }
 }
 
-/* 主题切换过渡：切换瞬间全站元素统一渐变 */
+/* 主题切换过渡：切换瞬间全站元素统一渐变（含 body/hero 渐变层） */
 @media (prefers-reduced-motion: no-preference) {
+  html.theme-switching,
   html.theme-switching *,
   html.theme-switching *::before,
   html.theme-switching *::after {
     transition: background-color .35s ease, color .35s ease,
-                border-color .35s ease, box-shadow .35s ease !important;
+                border-color .35s ease, box-shadow .35s ease,
+                --bg .35s ease, --hero-top .35s ease,
+                --glow-a .35s ease, --glow-b .35s ease, --glow-c .35s ease,
+                --blob-a .35s ease, --blob-b .35s ease !important;
   }
 }
 

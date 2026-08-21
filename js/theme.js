@@ -28,8 +28,13 @@
       const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
       // 切换瞬间给全站元素加上统一过渡
       root.classList.add("theme-switching");
+      // 按钮自身旋转动效
+      btn.classList.add("is-switching");
       apply(next);
-      setTimeout(() => root.classList.remove("theme-switching"), 400);
+      setTimeout(() => {
+        root.classList.remove("theme-switching");
+        btn.classList.remove("is-switching");
+      }, 600);
       try { localStorage.setItem(KEY, next); } catch { /* 忽略 */ }
     });
   }
