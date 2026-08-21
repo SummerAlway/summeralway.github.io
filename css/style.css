@@ -96,10 +96,12 @@ a:hover { color: var(--accent-dark); }
 }
 
 .nav-inner {
+  max-width: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 60px;
+  padding: 0 28px;
 }
 
 .nav-logo {
