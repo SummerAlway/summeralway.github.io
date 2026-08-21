@@ -15,6 +15,15 @@ const $$ = (sel) => document.querySelectorAll(sel);
 const blogList = $("#blogList");
 const postView = $("#postView");
 
+/* 阅读模式：通过 ?post=文件名 在新标签页直接打开某篇文章 */
+const directPost = (function () {
+  try {
+    return new URLSearchParams(window.location.search).get("post");
+  } catch {
+    return null;
+  }
+})();
+
 /* ============================================================
  * 一、站点信息（标题/页脚）来自 data.json
  * ========================================================== */
@@ -185,7 +194,11 @@ function renderList(posts) {
   if (window.refreshReveal) window.refreshReveal();
 
   $$(".post-card").forEach((card) => {
-    card.addEventListener("click", () => openPost(posts, card.dataset.file));
+    // 新标签页打开阅读页，占满全屏提升阅读体验
+    card.addEventListener("click", () => {
+      const url = "blog.html?post=" + encodeURIComponent(card.dataset.file);
+      window.open(url, "_blank");
+    });
   });
 }
 
@@ -193,6 +206,7 @@ function openPost(posts, file) {
   const post = posts.find((p) => p.file === file);
   if (!post) return;
 
+  document.title = post.title + " · SummerAlway";
   $("#postTitle").textContent = post.title;
   $("#postDate").textContent = formatDate(post.date);
   $("#postDate").setAttribute("datetime", post.date);
@@ -202,7 +216,6 @@ function openPost(posts, file) {
 
   blogList.hidden = true;
   postView.hidden = false;
-  postView.scrollIntoView({ behavior: "smooth" });
 }
 
 async function init(force) {
@@ -212,7 +225,23 @@ async function init(force) {
 
   try {
     const posts = await loadPosts(force);
-    renderList(posts);
+    if (directPost) {
+      // 阅读模式：直接展示该文章，隐藏列表与工具栏
+      document.body.classList.add("reading-mode");
+      const post = posts.find((p) => p.file === directPost);
+      if (post) {
+        openPost(posts, directPost);
+      } else {
+        blogList.innerHTML = `
+          <div class="empty">
+            <span class="icon">⚠️</span>
+            未找到文章：${escapeHtml(directPost)}<br>
+            <a href="blog.html">返回文章列表</a>
+          </div>`;
+      }
+    } else {
+      renderList(posts);
+    }
   } catch (err) {
     blogList.innerHTML = `
       <div class="empty">
@@ -227,7 +256,13 @@ async function init(force) {
 
 /* ---------- 事件 ---------- */
 $("#btnRefresh").addEventListener("click", () => init(true));
-$("#backBtn").addEventListener("click", () => renderList(loadPostsFromCache()));
+$("#backBtn").addEventListener("click", () => {
+  if (directPost) {
+    window.location.href = "blog.html"; // 阅读页返回列表
+  } else {
+    renderList(loadPostsFromCache());
+  }
+});
 
 function loadPostsFromCache() {
   const c = getCache();
