@@ -43,6 +43,9 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+/* 确保 hidden 属性始终生效（不被 display:flex 等规则覆盖） */
+[hidden] { display: none !important; }
+
 html { scroll-behavior: smooth; }
 
 body {
@@ -582,7 +585,8 @@ a:hover { color: var(--accent-dark); }
 
 /* 阅读模式（新标签页直接查看文章） */
 .reading-mode .blog-toolbar,
-.reading-mode .section-desc { display: none; }
+.reading-mode .section-desc,
+.reading-mode #blogList { display: none; }
 .reading-mode .container { max-width: 980px; }
 .reading-mode .section { padding-top: 44px; }
 .reading-mode .post { padding: 48px 56px; }
