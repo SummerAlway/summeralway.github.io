@@ -26,7 +26,10 @@
   if (btn) {
     btn.addEventListener("click", () => {
       const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      // 切换瞬间给全站元素加上统一过渡
+      root.classList.add("theme-switching");
       apply(next);
+      setTimeout(() => root.classList.remove("theme-switching"), 400);
       try { localStorage.setItem(KEY, next); } catch { /* 忽略 */ }
     });
   }
