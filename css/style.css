@@ -750,7 +750,7 @@ a:hover { color: var(--accent-dark); }
   .reading-mode .post { padding: 24px; }
   .reading-mode .post-title { font-size: 26px; }
 
-  .blog-toolbar { flex-direction: column; align-items: flex-start; }
+  .blog-toolbar { flex-direction: column; align-items: center; }
   .blog-source { line-height: 1.6; }
   .contact-links { gap: 20px; }
 }
