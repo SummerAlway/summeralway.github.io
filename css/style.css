@@ -17,8 +17,6 @@
   --glow-a: rgba(37, 99, 235, .10);
   --glow-b: rgba(139, 92, 246, .09);
   --glow-c: rgba(37, 99, 235, .06);
-  --blob-a: rgba(37, 99, 235, .16);
-  --blob-b: rgba(139, 92, 246, .14);
   --font: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI",
     "Helvetica Neue", Arial, sans-serif;
 }
@@ -41,8 +39,6 @@
   --glow-a: rgba(96, 165, 250, .10);
   --glow-b: rgba(167, 139, 250, .09);
   --glow-c: rgba(96, 165, 250, .07);
-  --blob-a: rgba(96, 165, 250, .16);
-  --blob-b: rgba(167, 139, 250, .14);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -57,7 +53,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* 统一大背景：固定全屏辉光层，所有板块透明透出，不随滚动割裂 */
+/* 统一大背景：固定全屏辉光层，所有板块透明透出，顶部也覆盖，无割裂 */
 body::before {
   content: "";
   position: fixed;
@@ -65,23 +61,19 @@ body::before {
   z-index: 0;
   pointer-events: none;
   background-image:
-    radial-gradient(60rem 40rem at 12% 6%, var(--glow-a), transparent 60%),
-    radial-gradient(70rem 50rem at 88% 20%, var(--glow-b), transparent 60%),
+    radial-gradient(52rem 36rem at 50% -6%, var(--glow-a), transparent 62%),
+    radial-gradient(60rem 40rem at 12% 30%, var(--glow-b), transparent 60%),
+    radial-gradient(70rem 50rem at 88% 45%, var(--glow-a), transparent 60%),
     radial-gradient(60rem 45rem at 50% 100%, var(--glow-c), transparent 65%);
 }
 
 main { position: relative; z-index: 1; }
 .footer { position: relative; z-index: 1; }
 
-/* 主题切换遮罩（全屏淡入淡出，廉价且平滑） */
-#themeOverlay {
-  position: fixed;
-  inset: 0;
-  z-index: 999;
-  background: var(--bg);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .2s ease;
+/* 主题切换：原生 View Transitions 优雅溶解 */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: .35s;
 }
 
 .container {
@@ -584,38 +576,6 @@ a:hover { color: var(--accent-dark); }
   to { opacity: 1; transform: none; }
 }
 
-/* 首屏背景浮动光斑 */
-.hero { position: relative; overflow: hidden; }
-.hero .container { position: relative; z-index: 1; }
-.hero::before,
-.hero::after {
-  content: "";
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(60px);
-  pointer-events: none;
-}
-.hero::before {
-  width: 460px;
-  height: 460px;
-  top: -140px;
-  left: -120px;
-  background: radial-gradient(circle, var(--blob-a), transparent 70%);
-  animation: blobFloat 14s ease-in-out infinite;
-}
-.hero::after {
-  width: 380px;
-  height: 380px;
-  bottom: -120px;
-  right: -100px;
-  background: radial-gradient(circle, var(--blob-b), transparent 70%);
-  animation: blobFloat 18s ease-in-out infinite reverse;
-}
-@keyframes blobFloat {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(50px, 40px) scale(1.15); }
-}
-
 /* 减少动态效果（无障碍） */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -626,7 +586,7 @@ a:hover { color: var(--accent-dark); }
   .reveal { opacity: 1; transform: none; }
 }
 
-/* 主题切换过渡由 #themeOverlay 遮罩淡入淡出完成（见 Base 段） */
+/* 主题切换过渡由原生 View Transitions 完成（见 Base 段） */
 
 /* ===== Responsive ===== */
 @media (max-width: 720px) {
