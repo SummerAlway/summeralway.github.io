@@ -38,9 +38,16 @@ function escapeAttr(str) {
   return String(str == null ? "" : str).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 }
 
+/* 带超时的 fetch：防止网络卡住导致"加载中"一直不消失 */
+function fetchWithTimeout(url, ms) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), ms || 8000);
+  return fetch(url, { signal: controller.signal }).finally(() => clearTimeout(timer));
+}
+
 async function loadSiteInfo() {
   try {
-    const res = await fetch("data.json", { cache: "no-cache" });
+    const res = await fetchWithTimeout("data.json", 5000);
     if (!res.ok) return;
     const d = await res.json();
     document.title = (d.blog && d.blog.title ? d.blog.title + " · " : "") + (d.site.title || document.title);
@@ -112,7 +119,7 @@ async function loadPosts(force) {
   // 1) 列出 posts 文件夹内的 .md 文件（GitHub API）
   let files = [];
   try {
-    const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${POSTS_DIR}`);
+    const res = await fetchWithTimeout(`https://api.github.com/repos/${REPO}/contents/${POSTS_DIR}`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const items = await res.json();
     files = items.filter((i) =>
@@ -131,7 +138,7 @@ async function loadPosts(force) {
   for (const f of files) {
     try {
       const url = `https://raw.githubusercontent.com/${REPO}/${BRANCH}/${POSTS_DIR}/${encodeURIComponent(f.name)}`;
-      const res = await fetch(url);
+      const res = await fetchWithTimeout(url);
       if (!res.ok) continue;
       const raw = await res.text();
       const { meta, body } = parseFrontMatter(raw);

@@ -95,8 +95,10 @@ a:hover { color: var(--accent-dark); }
   border-bottom: 1px solid var(--border);
 }
 
-.nav-inner {
-  max-width: none;
+.nav .nav-inner {
+  max-width: 100% !important;
+  width: 100%;
+  margin: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -603,6 +605,7 @@ a:hover { color: var(--accent-dark); }
   .about-grid, .projects-grid { grid-template-columns: 1fr; }
 
   .container { padding: 0 20px; }
+  .nav .nav-inner { padding: 0 20px; }
 
   .nav-links {
     display: none;
@@ -650,6 +653,7 @@ a:hover { color: var(--accent-dark); }
 /* 小屏手机 */
 @media (max-width: 480px) {
   .container { padding: 0 16px; }
+  .nav .nav-inner { padding: 0 16px; }
 
   .hero { padding: 56px 0 44px; }
   .hero-title { letter-spacing: 1px; }
