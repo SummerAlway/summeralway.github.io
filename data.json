@@ -74,6 +74,22 @@
     "title": "博客",
     "description": "文章由 Markdown 编写，推送到 GitHub 仓库的 posts 文件夹即可自动发布。"
   },
+  "friends": {
+    "title": "友链",
+    "description": "欢迎交换友链，把我的主页加进你的友链吧。",
+    "items": [
+      {
+        "name": "GitHub",
+        "url": "https://github.com/SummerAlway",
+        "description": "我的 GitHub 主页，欢迎 star。"
+      },
+      {
+        "name": "XXX 的博客",
+        "url": "https://example.com",
+        "description": "在这里添加你的朋友博客，编辑 data.json 即可。"
+      }
+    ]
+  },
   "contact": {
     "title": "联系我",
     "description": "欢迎交流与合作，期待你的来信。",

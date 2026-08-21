@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>博客 · SummerAlway</title>
-  <meta name="description" content="SummerAlway 的博客，文章来源于 GitHub posts 文件夹。">
+  <title>归档 · SummerAlway</title>
+  <meta name="description" content="SummerAlway 博客文章归档，以时间线呈现。">
   <link rel="stylesheet" href="css/style.css">
   <script>
     (function () {
@@ -27,8 +27,8 @@
         <nav class="nav-links" id="navLinks">
           <a href="index.html#about">关于</a>
           <a href="index.html#projects">项目</a>
-          <a href="blog.html" class="active">博客</a>
-          <a href="archive.html">归档</a>
+          <a href="blog.html">博客</a>
+          <a href="archive.html" class="active">归档</a>
           <a href="friends.html">友链</a>
           <a href="index.html#contact">联系</a>
         </nav>
@@ -45,33 +45,14 @@
 
   <main>
 
-    <!-- ===== Blog ===== -->
-    <section class="section reveal" id="blog">
+    <!-- ===== Archive ===== -->
+    <section class="section reveal" id="archive">
       <div class="container">
-        <h2 class="section-title" id="blogTitle">博客</h2>
-        <p class="section-desc" id="blogDesc"></p>
-
-        <div class="blog-toolbar">
-          <span class="blog-source">📁 文章存放于 GitHub <code>posts/</code> 文件夹，推送即发布 · <a href="https://github.com/SummerAlway/summeralway.github.io/tree/main/posts" target="_blank" rel="noopener">前往文件夹</a></span>
-          <button class="btn btn-outline" id="btnRefresh">↻ 刷新</button>
-        </div>
-
-        <div class="blog-list" id="blogList">
+        <h2 class="section-title" id="archiveTitle">归档</h2>
+        <p class="section-desc" id="archiveDesc"></p>
+        <div id="timeline">
           <div class="empty"><span class="icon">⏳</span>正在从 GitHub 加载文章…</div>
         </div>
-
-        <!-- 文章阅读视图 -->
-        <article class="post" id="postView" hidden>
-          <button class="back-btn" id="backBtn">← 返回列表</button>
-          <header class="post-header">
-            <h1 class="post-title" id="postTitle"></h1>
-            <div class="post-meta">
-              <time id="postDate"></time>
-              <span class="tags" id="postTags"></span>
-            </div>
-          </header>
-          <div class="post-content" id="postContent"></div>
-        </article>
       </div>
     </section>
 
@@ -79,14 +60,13 @@
 
   <footer class="footer">
     <div class="container">
-      <p>© <span id="year"></span> <span id="footerName"></span> · Built with ♥ and Markdown · <a href="index.html">主页</a> · <a href="archive.html">归档</a> · <a href="friends.html">友链</a></p>
+      <p>© <span id="year"></span> <span id="footerName"></span> · Built with ♥ and Markdown · <a href="index.html">主页</a> · <a href="friends.html">友链</a></p>
     </div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="js/posts.js"></script>
   <script src="js/animate.js"></script>
   <script src="js/theme.js"></script>
-  <script src="js/blog.js"></script>
+  <script src="js/archive.js"></script>
 </body>
 </html>
