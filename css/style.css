@@ -266,6 +266,7 @@ a:hover { color: var(--accent-dark); }
 }
 
 .section-desc { text-align: center; color: var(--text-light); margin-bottom: 44px; font-size: 15px; }
+.section-desc:empty { display: none; }
 
 /* ===== About ===== */
 .about-grid {
