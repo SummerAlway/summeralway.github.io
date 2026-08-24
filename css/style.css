@@ -706,6 +706,15 @@ a:hover { color: var(--accent-dark); }
 
 /* 主题切换过渡由原生 View Transitions 完成（见 Base 段） */
 
+/* 博客页背景特效：3D 线框体 */
+#constellation {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.reading-mode #constellation { display: none; }
+
 /* ===== Responsive ===== */
 @media (max-width: 720px) {
   .about-grid, .projects-grid { grid-template-columns: 1fr; }
