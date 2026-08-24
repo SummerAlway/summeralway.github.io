@@ -120,6 +120,14 @@
   resize();
   window.addEventListener("resize", resize);
 
+  // 初始即渲染成形：节点从各自静止位置开始，避免从左上角飞入
+  particles.forEach((p) => {
+    const r = restPos(shapes[p.si], p.ni);
+    p.x = r.x;
+    p.y = r.y;
+    p.z = r.z;
+  });
+
   let t0 = performance.now();
 
   function frame(now) {
