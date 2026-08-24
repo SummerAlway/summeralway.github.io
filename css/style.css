@@ -212,11 +212,18 @@ a:hover { color: var(--accent-dark); }
   font-size: clamp(40px, 7vw, 64px);
   font-weight: 800;
   letter-spacing: 2px;
-  background: linear-gradient(120deg, var(--text) 0%, var(--accent) 100%);
+  background: linear-gradient(90deg, #2563eb, #8b5cf6, #ec4899, #2563eb, #8b5cf6, #ec4899);
+  background-size: 300% 100%;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 12px;
+}
+
+/* 标题持续颜色渐变 */
+@keyframes heroGradientFlow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
 }
 
 .hero-subtitle { font-size: 18px; color: var(--text-light); margin-bottom: 20px; }
@@ -558,7 +565,10 @@ a:hover { color: var(--accent-dark); }
   animation: fadeUp .7s ease forwards;
 }
 .hero .hero-greeting { animation-delay: .1s; }
-.hero .hero-title { animation-delay: .25s; }
+.hero .hero-title {
+  animation: heroGradientFlow 9s linear infinite, fadeUp .7s ease forwards;
+  animation-delay: 0s, .25s;
+}
 .hero .hero-subtitle { animation-delay: .45s; }
 .hero .hero-desc { animation-delay: .6s; }
 .hero .hero-actions { animation-delay: .8s; }
