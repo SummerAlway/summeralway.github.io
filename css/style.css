@@ -592,7 +592,7 @@ a:hover { color: var(--accent-dark); }
 .reading-mode #blogList { display: none; }
 
 /* 阅读页展开全部文章 */
-.post-topbar { display: flex; justify-content: flex-end; margin-bottom: 8px; }
+.post-bottombar { display: flex; justify-content: center; margin-top: 24px; }
 .reading-mode.list-expanded .blog-toolbar { display: flex; }
 .reading-mode.list-expanded .blog-search { display: block; }
 .reading-mode.list-expanded .section-desc { display: block; }
