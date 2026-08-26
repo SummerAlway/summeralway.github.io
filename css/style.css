@@ -477,7 +477,14 @@ a:hover { color: var(--accent-dark); }
 .post-content pre code { background: none; padding: 0; color: inherit; }
 .post-content table { border-collapse: collapse; margin-bottom: 16px; }
 .post-content th, .post-content td { border: 1px solid var(--border); padding: 8px 12px; }
-.post-content img { max-width: 100%; border-radius: 8px; }
+.post-content img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 24px auto;
+  border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, .08);
+}
 
 /* Empty state */
 .empty {

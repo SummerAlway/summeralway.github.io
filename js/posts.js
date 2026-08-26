@@ -48,7 +48,7 @@ window.Posts = (function () {
           const key = line.slice(0, i).trim();
           let val = line.slice(i + 1).trim().replace(/^["']|["']$/g, "");
           if (key === "tags") {
-            val = val.split(",").map((t) => t.trim()).filter(Boolean);
+            val = val.split(/[,，、]/).map((t) => t.trim()).filter(Boolean);
           }
           meta[key] = val;
         }
