@@ -167,6 +167,30 @@ function openPost(posts, file) {
   postView.hidden = false;
 }
 
+/* 上一篇 / 下一篇（posts 已按日期倒序，index+1 为更早一篇） */
+function renderPostNav(posts, currentFile) {
+  const idx = posts.findIndex((p) => p.file === currentFile);
+  const prev = posts[idx + 1];
+  const next = posts[idx - 1];
+
+  const prevEl = $("#prevPost");
+  const nextEl = $("#nextPost");
+  if (prev) {
+    prevEl.hidden = false;
+    prevEl.href = "blog.html?post=" + encodeURIComponent(prev.file);
+    prevEl.textContent = "← 上一篇：" + prev.title;
+  } else {
+    prevEl.hidden = true;
+  }
+  if (next) {
+    nextEl.hidden = false;
+    nextEl.href = "blog.html?post=" + encodeURIComponent(next.file);
+    nextEl.textContent = "下一篇：" + next.title + " →";
+  } else {
+    nextEl.hidden = true;
+  }
+}
+
 async function init(force) {
   blogList.hidden = false;
   postView.hidden = true;
@@ -177,9 +201,11 @@ async function init(force) {
     if (directPost) {
       // 阅读模式：直接展示该文章，隐藏列表与工具栏
       document.body.classList.add("reading-mode");
+      allPosts = posts;
       const post = posts.find((p) => p.file === directPost);
       if (post) {
         openPost(posts, directPost);
+        renderPostNav(posts, directPost);
       } else {
         blogList.innerHTML = `
           <div class="empty">
@@ -206,12 +232,23 @@ async function init(force) {
 
 /* ---------- 事件 ---------- */
 $("#btnRefresh").addEventListener("click", () => init(true));
-$("#backBtn").addEventListener("click", () => {
-  if (directPost) {
-    window.location.href = "blog.html"; // 阅读页返回列表
+
+/* 阅读页：展开 / 收起全部文章（含搜索） */
+$("#expandList").addEventListener("click", () => {
+  const expanded = document.body.classList.toggle("list-expanded");
+  const btn = $("#expandList");
+  if (expanded) {
+    postView.hidden = true;
+    blogList.hidden = false;
+    renderTagChips();
+    applyFilter();
+    btn.textContent = "← 返回文章";
   } else {
-    renderList(Posts.getCache() ? Posts.getCache().posts : []);
+    postView.hidden = false;
+    blogList.hidden = true;
+    btn.textContent = "☰ 全部文章";
   }
+  window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
 /* 搜索框 */
