@@ -587,6 +587,7 @@ a:hover { color: var(--accent-dark); }
 
 /* 阅读模式（新标签页直接查看文章） */
 .reading-mode .blog-toolbar,
+.reading-mode .blog-search,
 .reading-mode .section-desc,
 .reading-mode #blogList { display: none; }
 .reading-mode .container { max-width: 980px; }
@@ -709,6 +710,63 @@ a:hover { color: var(--accent-dark); }
 }
 .tl-title:hover { color: var(--accent); }
 .tl-tags { display: inline-flex; gap: 6px; }
+
+/* 博客搜索 / 标签筛选 */
+.blog-search { margin-bottom: 30px; }
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  transition: border-color .2s, box-shadow .2s;
+}
+.search-box:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, .12);
+}
+.search-box svg { width: 16px; height: 16px; color: var(--text-light); flex-shrink: 0; }
+.search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  color: var(--text);
+  font-family: var(--font);
+}
+.search-box input::placeholder { color: var(--text-light); }
+.search-box input::-webkit-search-cancel-button { -webkit-appearance: none; }
+.search-clear {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  font-size: 15px;
+  cursor: pointer;
+  padding: 2px 6px;
+}
+.search-clear:hover { color: var(--accent); }
+
+.tag-filter { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.tag-chip {
+  background: var(--tag-bg);
+  border: 1px solid var(--tag-border);
+  color: var(--accent);
+  font-size: 12px;
+  padding: 4px 13px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all .2s;
+}
+.tag-chip:hover { transform: translateY(-1px); }
+.tag-chip.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.search-result-count { margin-top: 12px; font-size: 13px; color: var(--text-light); }
 
 /* 减少动态效果（无障碍） */
 @media (prefers-reduced-motion: reduce) {

@@ -9,6 +9,11 @@ const $$ = (sel) => document.querySelectorAll(sel);
 const blogList = $("#blogList");
 const postView = $("#postView");
 
+/* 搜索 / 标签筛选状态 */
+let allPosts = [];
+let keyword = "";
+const selectedTags = new Set();
+
 /* 阅读模式：通过 ?post=文件名 在新标签页直接打开某篇文章 */
 const directPost = (function () {
   try {
@@ -56,11 +61,10 @@ function renderList(posts) {
   blogList.hidden = false;
 
   if (!posts.length) {
-    blogList.innerHTML = `
-      <div class="empty">
-        <span class="icon">📝</span>
-        还没有文章，先去发布第一篇吧。
-      </div>`;
+    const filtering = keyword.trim() || selectedTags.size;
+    blogList.innerHTML = filtering
+      ? `<div class="empty"><span class="icon">🔍</span>没有找到匹配的文章，换个关键词或标签试试。</div>`
+      : `<div class="empty"><span class="icon">📝</span>还没有文章，先去发布第一篇吧。</div>`;
     return;
   }
 
@@ -83,6 +87,68 @@ function renderList(posts) {
       window.open(url, "_blank");
     });
   });
+
+  // 卡片上的标签可点击 → 按该标签筛选
+  $$(".post-card .tags .tag").forEach((t) => {
+    t.addEventListener("click", (e) => {
+      e.stopPropagation();
+      selectedTags.clear();
+      selectedTags.add(t.textContent);
+      applyFilter();
+      blogList.scrollIntoView({ behavior: "smooth" });
+    });
+  });
+}
+
+/* ---------- 搜索 / 标签筛选 ---------- */
+
+function getAllTags() {
+  const set = new Set();
+  allPosts.forEach((p) => (p.tags || []).forEach((t) => set.add(t)));
+  return [...set].sort();
+}
+
+function renderTagChips() {
+  const el = $("#tagFilter");
+  const tags = getAllTags();
+  if (!tags.length) { el.innerHTML = ""; return; }
+  el.innerHTML = tags.map((t) =>
+    `<button class="tag-chip${selectedTags.has(t) ? " active" : ""}" data-tag="${Posts.escapeAttr(t)}">${Posts.escapeHtml(t)}</button>`
+  ).join("");
+  el.querySelectorAll(".tag-chip").forEach((chip) => {
+    chip.addEventListener("click", () => {
+      const t = chip.dataset.tag;
+      if (selectedTags.has(t)) selectedTags.delete(t);
+      else selectedTags.add(t);
+      applyFilter();
+    });
+  });
+}
+
+function applyFilter() {
+  const kw = keyword.trim().toLowerCase();
+  let list = allPosts;
+
+  if (selectedTags.size) {
+    list = list.filter((p) => (p.tags || []).some((t) => selectedTags.has(t)));
+  }
+  if (kw) {
+    list = list.filter((p) => {
+      const hay = ((p.title || "") + " " + (p.content || "") + " " + (p.tags || []).join(" ")).toLowerCase();
+      return hay.includes(kw);
+    });
+  }
+
+  renderList(list);
+  renderTagChips();
+
+  const count = $("#searchCount");
+  if (kw || selectedTags.size) {
+    count.hidden = false;
+    count.textContent = "共 " + list.length + " 篇匹配" + (selectedTags.size ? " · 标签：" + [...selectedTags].join("、") : "");
+  } else {
+    count.hidden = true;
+  }
 }
 
 function openPost(posts, file) {
@@ -123,7 +189,11 @@ async function init(force) {
           </div>`;
       }
     } else {
-      renderList(posts);
+      allPosts = posts;
+      keyword = "";
+      selectedTags.clear();
+      renderTagChips();
+      applyFilter();
     }
   } catch (err) {
     blogList.innerHTML = `
@@ -142,6 +212,19 @@ $("#backBtn").addEventListener("click", () => {
   } else {
     renderList(Posts.getCache() ? Posts.getCache().posts : []);
   }
+});
+
+/* 搜索框 */
+$("#searchInput").addEventListener("input", (e) => {
+  keyword = e.target.value;
+  $("#searchClear").hidden = !keyword;
+  applyFilter();
+});
+$("#searchClear").addEventListener("click", () => {
+  keyword = "";
+  $("#searchInput").value = "";
+  $("#searchClear").hidden = true;
+  applyFilter();
 });
 
 /* ---------- 移动端导航 ---------- */

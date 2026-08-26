@@ -55,6 +55,16 @@
           <button class="btn btn-outline" id="btnRefresh">↻ 刷新</button>
         </div>
 
+        <div class="blog-search">
+          <div class="search-box">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="search" id="searchInput" placeholder="搜索文章标题、正文或标签…" autocomplete="off" aria-label="搜索文章">
+            <button class="search-clear" id="searchClear" aria-label="清空搜索" hidden>✕</button>
+          </div>
+          <div class="tag-filter" id="tagFilter"></div>
+          <div class="search-result-count" id="searchCount" hidden></div>
+        </div>
+
         <div class="blog-list" id="blogList">
           <div class="empty"><span class="icon">⏳</span>正在加载文章…</div>
         </div>
