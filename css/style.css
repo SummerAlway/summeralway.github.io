@@ -586,17 +586,13 @@ a:hover { color: var(--accent-dark); }
 }
 
 /* 阅读模式（新标签页直接查看文章） */
-.reading-mode .blog-toolbar,
-.reading-mode .blog-search,
-.reading-mode .section-desc,
-.reading-mode #blogList { display: none; }
+.reading-mode .blog-collapse,
+.reading-mode .blog-content,
+.reading-mode .section-desc { display: none; }
 
-/* 阅读页展开全部文章 */
-.post-bottombar { display: flex; justify-content: center; margin-top: 24px; }
-.reading-mode.list-expanded .blog-toolbar { display: flex; }
-.reading-mode.list-expanded .blog-search { display: block; }
-.reading-mode.list-expanded .section-desc { display: block; }
-.reading-mode.list-expanded #blogList { display: flex; }
+/* 博客页展开按钮 */
+.blog-collapse { display: flex; justify-content: center; margin-bottom: 30px; }
+.blog-collapse .btn { padding: 12px 34px; }
 
 /* 上一篇 / 下一篇 */
 .post-nav {

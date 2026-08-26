@@ -51,26 +51,34 @@
         <h2 class="section-title" id="blogTitle">博客</h2>
         <p class="section-desc" id="blogDesc"></p>
 
-        <div class="blog-toolbar">
-          <button class="btn btn-outline" id="btnRefresh">↻ 刷新</button>
+        <!-- 默认只留一个按钮，点击展开全部（搜索 + 列表） -->
+        <div class="blog-collapse">
+          <button class="btn btn-primary" id="togglePosts">☰ 展开全部文章</button>
         </div>
 
-        <div class="blog-search">
-          <div class="search-box">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input type="search" id="searchInput" placeholder="搜索文章标题、正文或标签…" autocomplete="off" aria-label="搜索文章">
-            <button class="search-clear" id="searchClear" aria-label="清空搜索" hidden>✕</button>
+        <div class="blog-content" id="blogContent" hidden>
+          <div class="blog-toolbar">
+            <button class="btn btn-outline" id="btnRefresh">↻ 刷新</button>
           </div>
-          <div class="tag-filter" id="tagFilter"></div>
-          <div class="search-result-count" id="searchCount" hidden></div>
-        </div>
 
-        <div class="blog-list" id="blogList">
-          <div class="empty"><span class="icon">⏳</span>正在加载文章…</div>
+          <div class="blog-search">
+            <div class="search-box">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="search" id="searchInput" placeholder="搜索文章标题、正文或标签…" autocomplete="off" aria-label="搜索文章">
+              <button class="search-clear" id="searchClear" aria-label="清空搜索" hidden>✕</button>
+            </div>
+            <div class="tag-filter" id="tagFilter"></div>
+            <div class="search-result-count" id="searchCount" hidden></div>
+          </div>
+
+          <div class="blog-list" id="blogList">
+            <div class="empty"><span class="icon">⏳</span>正在加载文章…</div>
+          </div>
         </div>
 
         <!-- 文章阅读视图 -->
         <article class="post" id="postView" hidden>
+          <a class="back-btn" href="blog.html">← 返回列表</a>
           <header class="post-header">
             <h1 class="post-title" id="postTitle"></h1>
             <div class="post-meta">
@@ -83,9 +91,6 @@
             <a class="post-nav-item prev" id="prevPost" hidden>← 上一篇</a>
             <a class="post-nav-item next" id="nextPost" hidden>下一篇 →</a>
           </nav>
-          <div class="post-bottombar">
-            <button class="btn btn-outline" id="expandList">☰ 全部文章</button>
-          </div>
         </article>
       </div>
     </section>
