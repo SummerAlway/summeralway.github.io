@@ -236,17 +236,15 @@ async function init(force) {
 /* ---------- 事件 ---------- */
 $("#btnRefresh").addEventListener("click", () => init(true));
 
-/* 博客页：展开 / 收起全部文章（搜索 + 列表） */
-$("#togglePosts").addEventListener("click", () => {
-  const wrap = $("#blogContent");
-  if (wrap.hidden) {
-    wrap.hidden = false;
+/* 展开 / 收起搜索 + 标签筛选（带动效） */
+$("#toggleSearch").addEventListener("click", () => {
+  const wrap = $("#blogSearch");
+  const open = wrap.classList.toggle("open");
+  $("#toggleSearch").textContent = open ? "✕ 收起搜索" : "🔍 搜索 / 标签";
+  if (open) {
     renderTagChips();
     applyFilter();
-    $("#togglePosts").textContent = "✕ 收起";
-  } else {
-    wrap.hidden = true;
-    $("#togglePosts").textContent = "☰ 展开全部文章";
+    $("#searchInput").focus();
   }
 });
 
