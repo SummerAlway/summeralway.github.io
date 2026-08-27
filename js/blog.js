@@ -13,6 +13,7 @@ const postView = $("#postView");
 let allPosts = [];
 let keyword = "";
 const selectedTags = new Set();
+let listRendered = false;
 
 /* 阅读模式：通过 ?post=文件名 在新标签页直接打开某篇文章 */
 const directPost = (function () {
@@ -71,8 +72,11 @@ function renderList(posts) {
     return;
   }
 
+  // 首次渲染带渐显动效；搜索/筛选等重渲染时直接显示，避免"刷新"动画
+  const revealCls = listRendered ? "" : " reveal";
+
   blogList.innerHTML = posts.map((p) => `
-    <article class="post-card reveal" data-file="${Posts.escapeAttr(p.file)}">
+    <article class="post-card${revealCls}" data-file="${Posts.escapeAttr(p.file)}">
       <h3>${Posts.escapeHtml(p.title)}</h3>
       <p>${Posts.escapeHtml(Posts.plainPreview(p.content, 100))}</p>
       <div class="post-meta">
@@ -81,7 +85,8 @@ function renderList(posts) {
       </div>
     </article>`).join("");
 
-  if (window.refreshReveal) window.refreshReveal();
+  if (!listRendered && window.refreshReveal) window.refreshReveal();
+  listRendered = true;
 
   $$(".post-card").forEach((card) => {
     // 新标签页打开阅读页，占满全屏提升阅读体验
@@ -240,7 +245,7 @@ $("#btnRefresh").addEventListener("click", () => init(true));
 $("#toggleSearch").addEventListener("click", () => {
   const wrap = $("#blogSearch");
   const opening = wrap.classList.toggle("open");
-  $("#toggleSearch").textContent = opening ? "✕ 收起搜索" : "🔍 搜索 / 标签";
+  $("#toggleSearch").textContent = opening ? "收起搜索" : "搜索 / 标签";
   if (opening) {
     renderTagChips();
     applyFilter();
