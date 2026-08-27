@@ -590,19 +590,28 @@ a:hover { color: var(--accent-dark); }
 .reading-mode .blog-search,
 .reading-mode .section-desc { display: none; }
 
-/* 搜索 + 标签折叠展开（grid-rows 平滑过渡） */
+/* 搜索 + 标签折叠展开（柔化过渡） */
+html { interpolate-size: allow-keywords; }
+
 .blog-search {
-  display: grid;
-  grid-template-rows: 0fr;
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-8px);
   margin-bottom: 0;
-  transition: grid-template-rows .4s cubic-bezier(.22, .61, .36, 1), margin .4s cubic-bezier(.22, .61, .36, 1);
+  transition:
+    height .45s cubic-bezier(.22, .61, .36, 1),
+    opacity .35s ease,
+    transform .45s cubic-bezier(.22, .61, .36, 1),
+    margin .45s cubic-bezier(.22, .61, .36, 1);
 }
 .blog-search.open {
-  grid-template-rows: 1fr;
+  height: auto;
+  opacity: 1;
+  transform: translateY(0);
   margin-bottom: 30px;
 }
 .blog-search-inner {
-  overflow: hidden;
   min-height: 0;
 }
 
