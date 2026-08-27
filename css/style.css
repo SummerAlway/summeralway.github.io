@@ -601,7 +601,7 @@ html { interpolate-size: allow-keywords; }
   margin-bottom: 0;
   transition:
     height .45s cubic-bezier(.22, .61, .36, 1),
-    opacity .35s ease,
+    opacity .45s cubic-bezier(.22, .61, .36, 1),
     transform .45s cubic-bezier(.22, .61, .36, 1),
     margin .45s cubic-bezier(.22, .61, .36, 1);
 }

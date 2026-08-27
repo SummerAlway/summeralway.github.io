@@ -237,15 +237,24 @@ async function init(force) {
 $("#btnRefresh").addEventListener("click", () => init(true));
 
 /* 展开 / 收起搜索 + 标签筛选（带动效） */
+function lockScroll(lock) {
+  document.documentElement.style.overflow = lock ? "hidden" : "";
+  document.body.style.overflow = lock ? "hidden" : "";
+}
+
 $("#toggleSearch").addEventListener("click", () => {
   const wrap = $("#blogSearch");
-  const open = wrap.classList.toggle("open");
-  $("#toggleSearch").textContent = open ? "✕ 收起搜索" : "🔍 搜索 / 标签";
-  if (open) {
+  const opening = wrap.classList.toggle("open");
+  $("#toggleSearch").textContent = opening ? "✕ 收起搜索" : "🔍 搜索 / 标签";
+  if (opening) {
     renderTagChips();
     applyFilter();
     $("#searchInput").focus();
   }
+  // 过渡期间锁定页面滚动条，避免右侧滚动条闪烁
+  lockScroll(true);
+  clearTimeout(window._searchScrollLock);
+  window._searchScrollLock = setTimeout(() => lockScroll(false), 520);
 });
 
 /* 搜索框 */
