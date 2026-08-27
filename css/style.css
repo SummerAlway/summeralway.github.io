@@ -590,31 +590,39 @@ a:hover { color: var(--accent-dark); }
 .reading-mode .blog-search,
 .reading-mode .section-desc { display: none; }
 
-/* 博客页 / 阅读模式：隐藏原生滚动条，用顶部彩虹进度条代替 */
-html.blog-page { scrollbar-width: none; -ms-overflow-style: none; }
-html.blog-page::-webkit-scrollbar { display: none; }
+/* 全站隐藏原生滚动条，用顶部彩虹进度条代替 */
+html { scrollbar-width: none; -ms-overflow-style: none; }
+html::-webkit-scrollbar { display: none; }
 
-/* 搜索 + 标签折叠展开（高度由 JS 测量，确保平滑） */
+/* 搜索 + 标签：下拉卡片（淡入 + 下滑 + 缩放，不改布局高度） */
 .blog-search {
+  position: relative;
   height: 0;
-  overflow: hidden;
+  z-index: 10;
+}
+.search-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  padding: 16px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .12);
   opacity: 0;
-  transform: translateY(-8px);
-  margin-bottom: 0;
-  transition:
-    height .4s cubic-bezier(.22, .61, .36, 1),
-    opacity .35s cubic-bezier(.22, .61, .36, 1),
-    transform .4s cubic-bezier(.22, .61, .36, 1),
-    margin .4s cubic-bezier(.22, .61, .36, 1);
+  visibility: hidden;
+  transform: translateY(-10px) scale(.98);
+  transition: opacity .28s ease, transform .35s cubic-bezier(.22, .61, .36, 1), visibility 0s linear .35s;
 }
-.blog-search.open {
+.blog-search.open .search-panel {
   opacity: 1;
-  transform: translateY(0);
-  margin-bottom: 30px;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  transition: opacity .28s ease, transform .35s cubic-bezier(.22, .61, .36, 1), visibility 0s;
 }
-.blog-search-inner {
-  min-height: 0;
-}
+.search-panel .tag-filter { margin-top: 14px; }
+.search-panel .search-result-count { margin-top: 12px; }
 
 /* 上一篇 / 下一篇 */
 .post-nav {
@@ -765,21 +773,16 @@ html.blog-page::-webkit-scrollbar { display: none; }
 .tl-tags { display: inline-flex; gap: 6px; }
 
 /* 博客搜索 / 标签筛选 */
-.blog-search { margin-bottom: 30px; }
+.blog-search { margin-bottom: 0; }
 .search-box {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  transition: border-color .2s, box-shadow .2s;
+  gap: 10px;
+  padding: 4px 2px 10px;
+  border-bottom: 1px solid var(--border);
+  transition: border-color .2s;
 }
-.search-box:focus-within {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, .12);
-}
+.search-box:focus-within { border-color: var(--accent); }
 .search-box svg { width: 16px; height: 16px; color: var(--text-light); flex-shrink: 0; }
 .search-box input {
   flex: 1;

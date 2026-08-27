@@ -236,34 +236,16 @@ async function init(force) {
 /* ---------- 事件 ---------- */
 $("#btnRefresh").addEventListener("click", () => init(true));
 
-/* 展开 / 收起搜索 + 标签筛选（JS 量高度，保证各浏览器平滑） */
+/* 展开 / 收起搜索 + 标签筛选（下拉卡片淡入 + 下滑） */
 $("#toggleSearch").addEventListener("click", () => {
   const wrap = $("#blogSearch");
-  const inner = $(".blog-search-inner");
-  const opening = !wrap.classList.contains("open");
-
+  const opening = wrap.classList.toggle("open");
+  $("#toggleSearch").textContent = opening ? "✕ 收起搜索" : "🔍 搜索 / 标签";
   if (opening) {
-    wrap.classList.add("open");
     renderTagChips();
     applyFilter();
-    // 内容渲染后再测量真实高度，由高度 0 平滑展开
-    wrap.style.height = inner.scrollHeight + "px";
     $("#searchInput").focus();
-  } else {
-    // 从当前高度收起
-    wrap.style.height = wrap.offsetHeight + "px";
-    void wrap.offsetHeight; // 强制重排
-    wrap.style.height = "0px";
-    wrap.classList.remove("open");
   }
-
-  $("#toggleSearch").textContent = opening ? "✕ 收起搜索" : "🔍 搜索 / 标签";
-
-  // 过渡结束后把高度还原为 auto，适应窗口缩放
-  clearTimeout(window._searchH);
-  window._searchH = setTimeout(() => {
-    if (opening) wrap.style.height = "auto";
-  }, 500);
 });
 
 /* 搜索框 */
