@@ -590,9 +590,11 @@ a:hover { color: var(--accent-dark); }
 .reading-mode .blog-search,
 .reading-mode .section-desc { display: none; }
 
-/* 搜索 + 标签折叠展开（柔化过渡） */
-html { interpolate-size: allow-keywords; }
+/* 博客页 / 阅读模式：隐藏原生滚动条，用顶部彩虹进度条代替 */
+html.blog-page { scrollbar-width: none; -ms-overflow-style: none; }
+html.blog-page::-webkit-scrollbar { display: none; }
 
+/* 搜索 + 标签折叠展开（高度由 JS 测量，确保平滑） */
 .blog-search {
   height: 0;
   overflow: hidden;
@@ -600,13 +602,12 @@ html { interpolate-size: allow-keywords; }
   transform: translateY(-8px);
   margin-bottom: 0;
   transition:
-    height .45s cubic-bezier(.22, .61, .36, 1),
-    opacity .45s cubic-bezier(.22, .61, .36, 1),
-    transform .45s cubic-bezier(.22, .61, .36, 1),
-    margin .45s cubic-bezier(.22, .61, .36, 1);
+    height .4s cubic-bezier(.22, .61, .36, 1),
+    opacity .35s cubic-bezier(.22, .61, .36, 1),
+    transform .4s cubic-bezier(.22, .61, .36, 1),
+    margin .4s cubic-bezier(.22, .61, .36, 1);
 }
 .blog-search.open {
-  height: auto;
   opacity: 1;
   transform: translateY(0);
   margin-bottom: 30px;
@@ -639,6 +640,9 @@ html { interpolate-size: allow-keywords; }
 }
 .post-nav-item:hover { border-color: var(--accent); color: var(--accent); }
 .post-nav-item.next { margin-left: auto; text-align: right; }
+
+/* 阅读页底部返回链接 */
+.post-bottomlinks { text-align: center; margin-top: 26px; }
 .reading-mode .container { max-width: 980px; }
 .reading-mode .section { padding-top: 44px; }
 .reading-mode .post { padding: 48px 56px; }
