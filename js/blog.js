@@ -241,6 +241,15 @@ async function init(force) {
 /* ---------- 事件 ---------- */
 $("#btnRefresh").addEventListener("click", () => init(true));
 
+/* 点击页面空白处关闭展开的搜索栏 */
+document.addEventListener("click", (e) => {
+  const wrap = $("#blogSearch");
+  if (!wrap.classList.contains("open")) return;
+  if (e.target.closest && (e.target.closest("#blogSearch") || e.target.closest("#toggleSearch"))) return;
+  wrap.classList.remove("open");
+  $("#toggleSearch").textContent = "搜索 / 标签";
+});
+
 /* 展开 / 收起搜索 + 标签筛选（下拉卡片淡入 + 下滑） */
 $("#toggleSearch").addEventListener("click", () => {
   const wrap = $("#blogSearch");
