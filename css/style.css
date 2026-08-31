@@ -17,6 +17,11 @@
   --glow-a: rgba(37, 99, 235, .10);
   --glow-b: rgba(139, 92, 246, .09);
   --glow-c: rgba(37, 99, 235, .06);
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+  --glass-hl-a: #2563eb;
+  --glass-hl-b: #8b5cf6;
   --font: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI",
     "Helvetica Neue", Arial, sans-serif;
 }
@@ -39,6 +44,11 @@
   --glow-a: rgba(96, 165, 250, .10);
   --glow-b: rgba(167, 139, 250, .09);
   --glow-c: rgba(96, 165, 250, .07);
+  --glass-bg: rgba(17, 24, 39, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  --glass-hl-a: #60a5fa;
+  --glass-hl-b: #a78bfa;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -93,9 +103,10 @@ a:hover { color: var(--accent-dark); }
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--nav-bg);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--glass-border);
 }
 
 .nav .nav-inner {
@@ -844,6 +855,75 @@ html::-webkit-scrollbar { display: none; }
   pointer-events: none;
 }
 .reading-mode #constellation { display: none; }
+
+/* ===== 毛玻璃（借用 SRInternet/Home_Page 的 glass-panel 模块） ===== */
+.nav,
+.about-card,
+.project-card,
+.post-card,
+.post,
+.friend-card,
+.search-panel,
+.post-nav-item {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+/* 卡片裁掉溢出以容纳发丝光效；导航保持不裁剪（避免影响移动端下拉菜单） */
+.about-card,
+.project-card,
+.post-card,
+.post,
+.friend-card,
+.search-panel,
+.post-nav-item {
+  position: relative;
+  overflow: hidden;
+}
+
+/* 顶部发丝光效（主色渐变，流动） */
+.nav::after,
+.about-card::after,
+.project-card::after,
+.post-card::after,
+.post::after,
+.friend-card::after,
+.search-panel::after,
+.post-nav-item::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--glass-hl-a), transparent);
+  animation: glass-glow 4s ease-in-out infinite;
+  pointer-events: none;
+}
+/* 底部发丝光效（辅助色渐变，反向流动） */
+.about-card::before,
+.project-card::before,
+.post-card::before,
+.post::before,
+.friend-card::before,
+.search-panel::before,
+.post-nav-item::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--glass-hl-b), transparent);
+  animation: glass-glow 4s ease-in-out infinite reverse;
+  pointer-events: none;
+}
+@keyframes glass-glow {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
 
 /* ===== Responsive ===== */
 @media (max-width: 720px) {
