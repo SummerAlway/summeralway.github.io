@@ -159,6 +159,18 @@ function applyFilter() {
   }
 }
 
+/* 评论区（整篇文章复用一个实例） */
+let commentsInstance = null;
+let commentsFor = null;
+function mountComments(post) {
+  const el = $("#postComments");
+  if (!el || !window.Comments) return;
+  el.hidden = false;
+  if (commentsFor === post.file && commentsInstance) { commentsInstance.reload(); return; }
+  commentsFor = post.file;
+  commentsInstance = Comments.mount(el, { post: post.file, title: "评论" });
+}
+
 function openPost(posts, file) {
   const post = posts.find((p) => p.file === file);
   if (!post) return;
@@ -173,6 +185,8 @@ function openPost(posts, file) {
 
   blogList.hidden = true;
   postView.hidden = false;
+
+  mountComments(post);
 }
 
 /* 上一篇 / 下一篇（posts 已按日期倒序，index+1 为更早一篇） */

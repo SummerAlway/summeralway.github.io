@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>留言板 · SummerAlway</title>
-  <meta name="description" content="SummerAlway 的留言板，欢迎留言交流。">
+  <title>站主后台 · SummerAlway</title>
+  <meta name="robots" content="noindex, nofollow">
   <link rel="stylesheet" href="css/style.css">
   <script>
     (function () {
@@ -14,7 +14,6 @@
       document.documentElement.setAttribute("data-theme", t);
     })();
   </script>
-  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
 
@@ -26,12 +25,9 @@
       <a href="index.html" class="nav-logo" id="logoText">Summer<span id="logoAccent">Alway</span></a>
       <div class="nav-right">
         <nav class="nav-links" id="navLinks">
-          <a href="index.html#about">关于</a>
-          <a href="index.html#projects">项目</a>
+          <a href="index.html">主页</a>
           <a href="blog.html">博客</a>
-          <a href="friends.html">友链</a>
-          <a href="guestbook.html" class="active">留言</a>
-          <a href="index.html#contact">联系</a>
+          <a href="guestbook.html">留言</a>
         </nav>
         <button class="theme-toggle" id="themeToggle" aria-label="切换日夜主题" title="切换日夜主题">
           <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
@@ -45,29 +41,45 @@
   </header>
 
   <main>
-
-    <!-- ===== Guestbook ===== -->
-    <section class="section reveal" id="guestbook">
+    <section class="section">
       <div class="container">
-        <h2 class="section-title" id="gbTitle">留言板</h2>
-        <p class="section-desc">欢迎留言交流，也可以给我提建议。</p>
+        <h2 class="section-title">站主后台</h2>
+        <p class="section-desc">登录后可回复、删除留言；回复将以站主名义显示。</p>
 
-        <div id="gbComments"></div>
+        <!-- 登录 -->
+        <div id="adminLogin" class="admin-card" hidden>
+          <input type="password" id="adminPwd" class="cm-input" placeholder="后台密码" autocomplete="current-password">
+          <div class="admin-actions">
+            <button class="btn btn-primary" id="adminLoginBtn">登录</button>
+          </div>
+        </div>
+
+        <!-- 管理面板 -->
+        <div id="adminPanel" hidden>
+          <div class="admin-bar">
+            <span>已登录：<b id="adminOwner">站主</b></span>
+            <span class="admin-bar-btns">
+              <button class="btn btn-outline" id="adminRefresh">刷新</button>
+              <button class="btn btn-outline" id="adminLogout">退出登录</button>
+            </span>
+          </div>
+          <div id="adminList" class="admin-list"></div>
+        </div>
+
+        <div class="cm-status" id="adminStatus" hidden></div>
       </div>
     </section>
-
   </main>
 
   <footer class="footer">
     <div class="container">
-      <p>© <span id="year"></span> <span id="footerName"></span> · <a href="index.html">主页</a> · <a href="blog.html">博客</a></p>
+      <p>© <span id="year"></span> <span id="footerName"></span> · <a href="index.html">主页</a></p>
     </div>
   </footer>
 
   <script src="js/posts.js"></script>
   <script src="js/animate.js"></script>
   <script src="js/theme.js"></script>
-  <script src="js/comments.js"></script>
-  <script src="js/guestbook.js"></script>
+  <script src="js/admin.js"></script>
 </body>
 </html>
