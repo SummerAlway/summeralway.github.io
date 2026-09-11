@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>友链 · SummerAlway</title>
-  <meta name="description" content="SummerAlway 的友情链接。">
+  <title>留言板 · SummerAlway</title>
+  <meta name="description" content="SummerAlway 的留言板，欢迎留言交流。">
   <link rel="stylesheet" href="css/style.css">
   <script>
     (function () {
@@ -28,8 +28,8 @@
           <a href="index.html#about">关于</a>
           <a href="index.html#projects">项目</a>
           <a href="blog.html">博客</a>
-          <a href="friends.html" class="active">友链</a>
-          <a href="guestbook.html">留言</a>
+          <a href="friends.html">友链</a>
+          <a href="guestbook.html" class="active">留言</a>
           <a href="index.html#contact">联系</a>
         </nav>
         <button class="theme-toggle" id="themeToggle" aria-label="切换日夜主题" title="切换日夜主题">
@@ -45,13 +45,25 @@
 
   <main>
 
-    <!-- ===== Friends ===== -->
-    <section class="section reveal" id="friends">
+    <!-- ===== Guestbook ===== -->
+    <section class="section reveal" id="guestbook">
       <div class="container">
-        <h2 class="section-title" id="friendsTitle">友链</h2>
-        <p class="section-desc" id="friendsDesc"></p>
-        <div class="friends-grid" id="friendsGrid">
-          <div class="empty"><span class="icon">⏳</span>正在加载友链…</div>
+        <h2 class="section-title" id="gbTitle">留言板</h2>
+        <p class="section-desc">欢迎留言交流，也可以给我提建议。</p>
+
+        <div class="gb-status" id="gbStatus" hidden></div>
+
+        <form class="gb-form" id="gbForm">
+          <input type="text" id="gbName" class="gb-input" placeholder="你的昵称（可留空）" maxlength="30" autocomplete="off">
+          <textarea id="gbContent" class="gb-textarea" placeholder="写点什么吧…" maxlength="500" rows="4" required></textarea>
+          <div class="gb-form-foot">
+            <span class="gb-count" id="gbCount">0 / 500</span>
+            <button type="submit" class="btn btn-primary" id="gbSubmit">发布留言</button>
+          </div>
+        </form>
+
+        <div class="gb-list" id="gbList">
+          <div class="empty"><span class="icon">💬</span>正在加载留言…</div>
         </div>
       </div>
     </section>
@@ -67,6 +79,6 @@
   <script src="js/posts.js"></script>
   <script src="js/animate.js"></script>
   <script src="js/theme.js"></script>
-  <script src="js/friends.js"></script>
+  <script src="js/guestbook.js"></script>
 </body>
 </html>
