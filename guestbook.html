@@ -14,6 +14,7 @@
       document.documentElement.setAttribute("data-theme", t);
     })();
   </script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
 
@@ -56,6 +57,9 @@
         <form class="gb-form" id="gbForm">
           <input type="text" id="gbName" class="gb-input" placeholder="你的昵称（可留空）" maxlength="30" autocomplete="off">
           <textarea id="gbContent" class="gb-textarea" placeholder="写点什么吧…" maxlength="500" rows="4" required></textarea>
+          <div class="gb-turnstile" id="gbTurnstileWrap">
+            <div class="cf-turnstile" id="gbTurnstile" data-sitekey="0x4AAAAAAEwKQLe0GDZSShQd" data-theme="auto" data-language="zh-cn"></div>
+          </div>
           <div class="gb-form-foot">
             <span class="gb-count" id="gbCount">0 / 500</span>
             <button type="submit" class="btn btn-primary" id="gbSubmit">发布留言</button>

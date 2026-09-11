@@ -883,6 +883,8 @@ html::-webkit-scrollbar { display: none; }
 .gb-textarea { resize: vertical; line-height: 1.6; }
 .gb-form-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .gb-count { font-size: 12px; color: var(--text-light); }
+.gb-turnstile { margin-bottom: 12px; }
+.gb-turnstile .cf-turnstile { display: inline-block; }
 
 .gb-list { display: flex; flex-direction: column; gap: 14px; }
 .gb-item { padding: 16px 18px; border-radius: 12px; }

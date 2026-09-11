@@ -17,6 +17,8 @@
   const countEl = $("#gbCount");
   const submitEl = $("#gbSubmit");
   const listEl = $("#gbList");
+  const turnstileEl = document.getElementById("gbTurnstile");
+  const turnstileWrap = $("#gbTurnstileWrap");
 
   let available = true; // 后端是否可用
 
@@ -39,6 +41,7 @@
     contentEl.disabled = true;
     submitEl.disabled = true;
     submitEl.textContent = "服务未连接";
+    if (turnstileWrap) turnstileWrap.hidden = true;
   }
 
   function formatTime(iso) {
@@ -97,19 +100,28 @@
       return;
     }
 
+    const token = (window.turnstile && turnstile.getResponse)
+      ? (turnstile.getResponse(turnstileEl) || "")
+      : "";
+    if (window.turnstile && turnstileEl && !token) {
+      showStatus("请先完成上方的人机验证。", "warn");
+      return;
+    }
+
     submitEl.disabled = true;
     submitEl.textContent = "发布中…";
     try {
       const res = await fetchTimeout(API, {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ name: nameEl.value.trim(), content }),
+        body: JSON.stringify({ name: nameEl.value.trim(), content, turnstileToken: token }),
       }, 10000);
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.ok) throw new Error((data && data.error) || "发布失败");
 
       contentEl.value = "";
       updateCount();
+      if (window.turnstile && turnstile.reset) turnstile.reset(turnstileEl);
       showStatus("留言发布成功 🎉", "ok");
       setTimeout(() => { statusEl.hidden = true; }, 2500);
       await loadMessages();

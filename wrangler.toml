@@ -1,0 +1,8 @@
+name = "summeralway-home"
+pages_build_output_dir = "."
+compatibility_date = "2026-09-11"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "guestbook"
+database_id = "baace359-0775-4932-b97c-74b6311a6c1b"
