@@ -1122,7 +1122,7 @@ html::-webkit-scrollbar { display: none; }
 .post-comments { margin-top: 34px; padding-top: 24px; border-top: 1px solid var(--border); }
 
 /* ===== 站主后台 ===== */
-.admin-card { padding: 20px; border-radius: 14px; max-width: 420px; }
+.admin-card { padding: 20px; border-radius: 14px; max-width: 420px; margin: 0 auto; }
 .admin-actions { display: flex; justify-content: flex-end; }
 .admin-bar {
   display: flex;
